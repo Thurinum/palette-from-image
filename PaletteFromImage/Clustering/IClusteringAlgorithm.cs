@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace PaletteFromImage.AppDomain
+namespace PaletteFromImage.Clustering
 {
     public interface IClusteringAlgorithm
     {

@@ -2,12 +2,12 @@
 {
     public record Palette
     (
-        IColor Primary,
-        IColor Secondary,
-        IColor Surface,
-        IColor OnPrimary,
-        IColor OnSecondary,
-        IColor OnSurface
+        SKColor Primary,
+        SKColor Secondary,
+        SKColor Surface,
+        SKColor OnPrimary,
+        SKColor OnSecondary,
+        SKColor OnSurface
     )
     {
         public static Palette Random(Random rng)

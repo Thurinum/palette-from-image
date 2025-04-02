@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PaletteFromImage.Clustering;
 
 namespace PaletteFromImage.AppDomain.Setup;
 
