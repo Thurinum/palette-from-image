@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaletteFromImage", "PaletteFromImage\PaletteFromImage.csproj", "{924BA1E3-F88C-4DFB-8517-C34F228C09A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaletteFromImage_Tests", "PaletteFromImage_Tests\PaletteFromImage_Tests.csproj", "{F6CC037D-5837-48B2-8A1D-CB972CF7C646}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{924BA1E3-F88C-4DFB-8517-C34F228C09A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{924BA1E3-F88C-4DFB-8517-C34F228C09A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{924BA1E3-F88C-4DFB-8517-C34F228C09A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{924BA1E3-F88C-4DFB-8517-C34F228C09A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6CC037D-5837-48B2-8A1D-CB972CF7C646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CC037D-5837-48B2-8A1D-CB972CF7C646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CC037D-5837-48B2-8A1D-CB972CF7C646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CC037D-5837-48B2-8A1D-CB972CF7C646}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
