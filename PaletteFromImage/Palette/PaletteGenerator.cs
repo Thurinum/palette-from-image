@@ -1,4 +1,5 @@
-﻿using PaletteFromImage.Clustering;
+﻿using CSharpFunctionalExtensions;
+using PaletteFromImage.Clustering;
 using SkiaSharp;
 
 namespace PaletteFromImage.AppDomain
@@ -7,11 +8,13 @@ namespace PaletteFromImage.AppDomain
     {
         private Random rng = new();
 
-        public Palette GeneratePalette(SKBitmap image)
+        public Result<Palette> GeneratePalette(SKBitmap image)
         {
             List<Palette> population = GetInitialPopulation(100);
             SKColor[] imagePixels = GetImagePixels(image);
-            SKColor[] clustered = clusterer.Cluster(imagePixels, 20);
+            var clustered = clusterer.Cluster(imagePixels, 20);
+
+            return Result.Failure<Palette>("Not implemented");
         }
 
         // gets the population of chromosomes (palette) for the genetic algorithm

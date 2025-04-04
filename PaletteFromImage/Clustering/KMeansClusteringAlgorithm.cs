@@ -1,16 +1,23 @@
-﻿using SkiaSharp;
+﻿using CSharpFunctionalExtensions;
+using SkiaSharp;
 
 namespace PaletteFromImage.Clustering
 {
     public delegate double DistanceFunction(SKColor a, SKColor b);
 
-    public class KMeansClusteringAlgorithm : IClusteringAlgorithm
+    public class KMeansClusteringAlgorithm(Random Random, IDistanceFunction Distance) : IClusteringAlgorithm
     {
-        // TODO: reuse the random instance and inject it instead!
-        private Random Random = new();
-
-        public SKColor[] Cluster(SKColor[] pixels, int k)
+        public Result<SKColor[]> Cluster(SKColor[] pixels, int k)
         {
+            if (pixels.Length == 0)
+                return Result.Failure<SKColor[]>("No pixels to cluster");
+
+            if (k <= 0)
+                return Result.Failure<SKColor[]>("Number of clusters must be greater than 0");
+
+            if (k > pixels.Length)
+                return Result.Failure<SKColor[]>("Number of clusters must be less than or equal to the number of pixels");
+
             List<SKColor> centroids = [];
 
             // first centroid is chosen randomly
@@ -19,7 +26,7 @@ namespace PaletteFromImage.Clustering
             while (centroids.Count < k)
             {
                 // get distance of each pixel to the nearest centroid
-                double[] distances = pixels.Select(p => centroids.Min(c => SquareEuclidianDistance(p, c))).ToArray();
+                double[] distances = pixels.Select(p => centroids.Min(c => Distance.Distance(p, c))).ToArray();
 
                 // normalize to get probability distribution
                 double totalDistance = distances.Sum();
@@ -37,26 +44,32 @@ namespace PaletteFromImage.Clustering
                 for (int i = 0; i < cumulativeProbabilities.Length; i++)
                 {
                     if (rand < cumulativeProbabilities[i])
+                    {
                         centroids.Add(pixels[i]);
+                        break;
+                    }
                 }
             }
 
             int iteration = 0;
             int maxIterations = 100;
-            double stopThreshold = 0.01;
+            double stopThreshold = 0.001;
             double[] deltas = new double[k];
 
-            while (iteration < maxIterations || deltas.Max() < stopThreshold) 
+            while (++iteration < maxIterations && deltas.Max() > stopThreshold) 
             {
                 // assign each pixel to the nearest centroid
-                List<SKColor>[] clusters = new List<SKColor>[k];
+                List<SKColor>[] clusters = Enumerable.Range(0, k)
+                    .Select(_ => new List<SKColor>())
+                    .ToArray();
+
                 foreach (SKColor pixel in pixels)
                 {
                     int closestCentroidIndex = 0;
-                    double closestDistance = SquareEuclidianDistance(pixel, centroids[0]);
+                    double closestDistance = Distance.Distance(pixel, centroids[0]);
                     for (int i = 1; i < centroids.Count; i++)
                     {
-                        double distance = SquareEuclidianDistance(pixel, centroids[i]);
+                        double distance = Distance.Distance(pixel, centroids[i]);
                         if (distance < closestDistance)
                         {
                             closestDistance = distance;
@@ -77,15 +90,14 @@ namespace PaletteFromImage.Clustering
                         (byte)cluster.Average(c => c.Blue)
                     );
 
-                    deltas[i] = SquareEuclidianDistance(centroids[i], newCentroid);
+                    deltas[i] = Distance.Distance(centroids[i], newCentroid);
                     centroids[i] = newCentroid;
                 }
             }
-        }
 
-        private DistanceFunction SquareEuclidianDistance = (a, b) =>
-        {
-            return Math.Pow(b.Red -  a.Red, 2) + Math.Pow(b.Green - a.Green, 2) + Math.Pow(b.Blue - a.Blue, 2);
-        };
+            Console.WriteLine($"KMeans finished in {iteration} iterations");
+
+            return centroids.ToArray();
+        }
     }
 }

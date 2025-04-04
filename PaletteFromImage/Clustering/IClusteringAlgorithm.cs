@@ -1,9 +1,10 @@
-﻿using SkiaSharp;
+﻿using CSharpFunctionalExtensions;
+using SkiaSharp;
 
 namespace PaletteFromImage.Clustering
 {
     public interface IClusteringAlgorithm
     {
-        SKColor[] Cluster(SKColor[] pixels, int k);
+        Result<SKColor[]> Cluster(SKColor[] pixels, int k);
     }
 }

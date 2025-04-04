@@ -1,4 +1,6 @@
-﻿namespace PaletteFromImage.AppDomain
+﻿using SkiaSharp;
+
+namespace PaletteFromImage.AppDomain
 {
     public record Palette
     (
@@ -22,12 +24,12 @@
             );
         }
 
-        private static IColor RandomColour(Random rng)
+        private static SKColor RandomColour(Random rng)
         {
-            int r = rng.Next(0, 256);
-            int g = rng.Next(0, 256);
-            int b = rng.Next(0, 256);
-            return new IColor(r, g, b);
+            byte r = (byte)rng.Next(0, 256);
+            byte g = (byte)rng.Next(0, 256);
+            byte b = (byte)rng.Next(0, 256);
+            return new SKColor(r, g, b);
         }
     };
 }
